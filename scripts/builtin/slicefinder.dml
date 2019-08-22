@@ -26,7 +26,6 @@
 
 m_slicefinder = function(Matrix[Double] X, Matrix[Double] W,Matrix[Double] Y, Integer k = 1, Integer paq = 1, Integer S = 2) return(Matrix[Double] result) {
 
-
   X0 = cbind(X,Y);
   beta = W;
   col = ncol(X0);
@@ -81,7 +80,6 @@ m_slicefinder = function(Matrix[Double] X, Matrix[Double] W,Matrix[Double] Y, In
   vrow = nrow(val_matrix);
   vcol = ncol(val_matrix);
   totalrows = (vrow - 1) * vcol;
-
 
   #######################################
   Y0 = X0[1:nrow(X0), ncol(X0)];
@@ -226,13 +224,12 @@ double_features = function(Matrix[Double] val_matrix, Matrix[Double] set_matrix,
     if (j == num_value + 1)
       vrow = vrow - 1;
 
-    for (i in 2:vrow) {
+    for (i in 2:num_value) {
 
       if (i > 2 | j > 1)
         slice_number = slice_number + 1;
 
       for (a in slice_number:totalrows) {
-
 
         num_col = as.scalar(set_matrix[a, 5]);
         x_x = order(target = X0, by = num_col, decreasing = FALSE);
@@ -241,7 +238,6 @@ double_features = function(Matrix[Double] val_matrix, Matrix[Double] set_matrix,
         value_A1 = as.scalar(set_matrix[a, 4]);
         a00 = as.scalar(set_matrix[a, 8]);
         a11 = as.scalar(set_matrix[a, 9]);
-
         A = x_x[a00:a11, b0:b1];
         Ya = x_x[a00:a11, col];
 
@@ -258,7 +254,6 @@ double_features = function(Matrix[Double] val_matrix, Matrix[Double] set_matrix,
           a0 = index(x, j, value_B0, 1);
         }
 
-
         a1 = index(x, j, value_B1, 1);
         B = x[a0:a1, b0:b1];
         slice_matrix = rbind(A, B);
@@ -266,9 +261,7 @@ double_features = function(Matrix[Double] val_matrix, Matrix[Double] set_matrix,
 
         Y0 = rbind(Ya, Yb);
         Y = lmpredict(X = slice_matrix, w = beta, icpt = 0);
-
         [error, diff] = standart_error(Y, Y0);
-
         set_matrix[cont,1:ncol(set_matrix)] = t(as.matrix(list(diff, error, value_A0, value_A1, num_col, nrow(A),
           ncol(A), a00, a11, b0, b1, value_B0, value_B1, j, nrow(B), ncol(B), a0, a1, b0, b1)));
         cont = cont + 1;
