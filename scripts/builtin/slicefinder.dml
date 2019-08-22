@@ -224,7 +224,7 @@ double_features = function(Matrix[Double] val_matrix, Matrix[Double] set_matrix,
     if (j == num_value + 1)
       vrow = vrow - 1;
 
-    for (i in 2:num_value) {
+    for (i in 2:num_value+1) {
 
       if (i > 2 | j > 1)
         slice_number = slice_number + 1;
